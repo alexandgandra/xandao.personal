@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexandre Gandra - Personal Trainer & Consultoria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-green: #a2ff00; 
+            --brand-dark: #0a0a0a;
+            --brand-gray: #1a1a1a;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--brand-dark); color: white; scroll-behavior: smooth; }
+        .font-heading { font-family: 'Orbitron', sans-serif; }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        .step-active { 
+            border-left-color: var(--brand-green); 
+            background-color: rgba(162, 255, 0, 0.1); 
+            color: var(--brand-green);
+        }
+        .step-inactive { border-left-color: #333; color: #999; }
+        
+        .glass-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #ffffff, var(--brand-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-green);
+            color: black;
+            font-weight: 800;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(162, 255, 0, 0.4);
+            transform: scale(1.02);
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body class="selection:bg-lime-400 selection:text-black">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex flex-col">
+                    <span class="text-xl font-bold tracking-widest font-heading text-white">ALEXANDRE <span class="text-lime-400">GANDRA</span></span>
+                    <span class="text-[10px] tracking-[0.3em] uppercase text-gray-400 font-medium">Personal Trainer</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="scrollToSection('metodo')" class="text-sm uppercase tracking-widest hover:text-lime-400 transition-colors">Consultoria</button>
+                    <button onclick="scrollToSection('planos')" class="text-sm uppercase tracking-widest hover:text-lime-400 transition-colors">Presencial</button>
+                    <a href="https://wa.me/5531972039874?text=Olá%20Alexandre!%20Vi%20seu%20site%20e%20quero%20agendar%20uma%20conversa." target="_blank" class="px-5 py-2 rounded bg-lime-400 text-black font-bold text-xs uppercase tracking-widest hover:bg-lime-300 transition-all">Agendar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative pt-24 pb-32 overflow-hidden bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-lime-900/20 via-black to-black">
+        <div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+            <div class="inline-block py-1 px-4 rounded-full border border-lime-400/30 bg-lime-400/10 text-lime-400 text-xs font-bold tracking-widest mb-8 uppercase text-center">A Performance que você busca</div>
+            <h1 class="text-5xl md:text-8xl font-black tracking-tighter mb-8 font-heading leading-none">
+                DOMINE SEU <br>
+                <span class="text-gradient">RESULTADO.</span>
+            </h1>
+            <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto mb-12">
+                Treinamento de elite com <strong>Alexandre Gandra</strong>. Ciência, técnica e acompanhamento direto para transformar seu físico e sua mente.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <button onclick="scrollToSection('metodo')" class="btn-primary px-10 py-5 rounded-sm uppercase tracking-tighter text-sm">Inicie a Consultoria Online</button>
+                <button onclick="scrollToSection('planos')" class="px-10 py-5 rounded-sm border border-white/20 text-white font-bold text-sm uppercase hover:bg-white/5 transition-all">Planos Presenciais</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consultoria Online -->
+    <section id="metodo" class="py-24 bg-zinc-950">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                <div>
+                    <h2 class="text-4xl font-bold font-heading mb-6 uppercase tracking-tighter leading-tight">MÉTODO <span class="text-lime-400">GANDRA</span> ONLINE</h2>
+                    <p class="text-white font-semibold mb-8 text-xl border-l-4 border-lime-400 pl-4 italic">
+                        "Você sabia que para ter resultados como esse daqui, você precisa de um direcionamento de treino e dieta de acordo com o seu objetivo?"
+                    </p>
+                    
+                    <!-- Steps Menu -->
+                    <div id="steps-container" class="space-y-4">
+                        <!-- JS injects interactive steps here -->
+                    </div>
+                </div>
+
+                <!-- Content Display -->
+                <div class="sticky top-24">
+                    <div id="step-content" class="glass-card rounded-xl p-8 md:p-12 min-h-[380px] border-l-4 border-lime-400 flex flex-col justify-center">
+                        <!-- JS injects dynamic content here -->
+                    </div>
+                    
+                    <div class="mt-6 glass-card p-6 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="text-center sm:text-left">
+                            <span class="text-xs uppercase text-lime-400 font-bold tracking-widest">Consultoria Completa</span>
+                            <p class="text-2xl font-bold">R$ 249,90 <span class="text-sm font-normal text-gray-500">/mês</span></p>
+                        </div>
+                        <a id="cta-online-btn" href="https://wa.me/5531972039874" target="_blank" class="btn-primary px-8 py-3 rounded uppercase text-sm tracking-widest w-full sm:w-auto">Quero fazer parte do time</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos Presenciais -->
+    <section id="planos" class="py-24 bg-black">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold font-heading mb-4 uppercase">ACOMPANHAMENTO <span class="text-lime-400">PRESENCIAL</span></h2>
+                <p class="text-gray-500">Minha supervisão direta em cada repetição. Técnica perfeita e motivação extrema.</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 mb-16">
+                <button onclick="filterPlan('Bronze')" id="btn-Bronze" class="plan-filter px-8 py-3 rounded bg-zinc-900 border border-white/10 text-gray-400 font-bold text-xs uppercase tracking-widest transition-all">Bronze (2x)</button>
+                <button onclick="filterPlan('Prata')" id="btn-Prata" class="plan-filter px-8 py-3 rounded bg-zinc-900 border border-white/10 text-gray-400 font-bold text-xs uppercase tracking-widest transition-all">Prata (3x)</button>
+                <button onclick="filterPlan('Ouro')" id="btn-Ouro" class="plan-filter px-8 py-3 rounded bg-zinc-900 border border-white/10 text-gray-400 font-bold text-xs uppercase tracking-widest transition-all">Ouro (4x)</button>
+                <button onclick="filterPlan('Plus')" id="btn-Plus" class="plan-filter px-8 py-3 rounded bg-zinc-900 border border-white/10 text-gray-400 font-bold text-xs uppercase tracking-widest transition-all">Plus (5x)</button>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-10">
+                <div id="plan-display" class="glass-card rounded-2xl p-10 border-t-4 border-lime-400 transition-all duration-500">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <h3 id="plan-title" class="text-3xl font-bold font-heading text-white uppercase">Plano</h3>
+                            <p id="plan-desc" class="text-gray-400 mt-2">Selecione para ver detalhes.</p>
+                        </div>
+                        <div id="plan-icon" class="w-16 h-16 rounded-full bg-zinc-800 flex items-center justify-center text-2xl border border-white/10 shadow-lg shadow-black"></div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-10">
+                        <div class="bg-zinc-900/50 p-4 rounded-lg">
+                            <p class="text-[10px] uppercase text-gray-500 font-bold mb-1">Frequência</p>
+                            <p id="plan-freq" class="text-lg font-bold">-</p>
+                        </div>
+                        <div class="bg-zinc-900/50 p-4 rounded-lg">
+                            <p class="text-[10px] uppercase text-gray-500 font-bold mb-1">Aulas Mensais</p>
+                            <p id="plan-volume" class="text-lg font-bold">-</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between mb-8">
+                        <span class="text-sm font-bold text-gray-400 uppercase">Investimento Total</span>
+                        <span id="plan-price" class="text-4xl font-black text-lime-400">-</span>
+                    </div>
+
+                    <a id="whatsapp-plan-btn" href="https://wa.me/5531972039874" target="_blank" class="btn-primary w-full py-5 rounded uppercase text-sm tracking-widest">Garantir Minha Vaga</a>
+                </div>
+
+                <div class="glass-card rounded-2xl p-10">
+                    <div class="mb-6">
+                        <h4 class="text-lg font-bold font-heading text-white uppercase">ESTRATÉGIA DE INVESTIMENTO</h4>
+                        <p class="text-xs text-gray-500">Custo unitário por aula de acordo com o plano.</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="plansChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contato" class="py-20 bg-zinc-950 border-t border-white/5">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold font-heading mb-6 uppercase tracking-widest">ALEXANDRE <span class="text-lime-400">GANDRA</span></h3>
+            <p class="text-gray-500 mb-10 uppercase text-xs tracking-[0.4em]">Consultoria Online & Personal Training</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://wa.me/5531972039874?text=Olá%20Alexandre!%20Vi%20seu%20site%20e%20quero%20saber%20mais%20sobre%20os%20planos." target="_blank" class="flex items-center justify-center gap-3 bg-[#25D366] text-white px-10 py-4 rounded-full font-bold hover:scale-105 transition-all">
+                    <span>WhatsApp Direto</span>
+                </a>
+                <a href="https://instagram.com/xandao.personal" target="_blank" class="bg-zinc-800 text-white px-10 py-4 rounded-full font-bold hover:bg-zinc-700 transition-all">Instagram</a>
+            </div>
+            <p class="mt-16 text-xs text-gray-700 uppercase tracking-widest">&copy; 2024 Alexandre Gandra - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Dados personalizados baseados no seu texto
+        const stepsData = [
+            { 
+                id: 1, 
+                title: "Questionário Inicial", 
+                short: "Primeiro passo",
+                icon: "📋", 
+                desc: "Vou te enviar um questionário para saber todas as suas limitações, o seu dia a dia, pra gente alinhar o melhor treino e a melhor dieta para o seu objetivo." 
+            },
+            { 
+                id: 2, 
+                title: "Envio das Fotos", 
+                short: "Segundo passo",
+                icon: "📸", 
+                desc: "Envio das fotos. Isso é muito importante pra gente fazer o acompanhamento tanto da sua evolução, mas também de correções posturais." 
+            },
+            { 
+                id: 3, 
+                title: "Acesso ao Aplicativo", 
+                short: "Terceiro passo",
+                icon: "📱", 
+                desc: "Você vai ser direcionado lá pra um aplicativo, onde vão ter todos os seus treinos, vídeos de exercícios e também os GIFs para você anotar sua carga e acompanhar a sua evolução." 
+            },
+            { 
+                id: 4, 
+                title: "Dieta Personalizada", 
+                short: "Quarto passo",
+                icon: "🥗", 
+                desc: "E também no aplicativo, a sua dieta, onde vão ter todas as substituições necessárias para você conseguir adaptar no seu dia a dia." 
+            },
+            { 
+                id: 5, 
+                title: "Suporte WhatsApp", 
+                short: "Quinto passo",
+                icon: "💬", 
+                desc: "Agora o mais importante: acompanhamento pelo WhatsApp. Lá você pode tirar todas as suas dúvidas de execuções dos exercícios, da prescrição e também me enviar vídeos pra gente fazer as correções necessárias para você fazer o exercício da maneira correta." 
+            },
+            { 
+                id: 6, 
+                title: "Vem pro Time!", 
+                short: "Sexto passo",
+                icon: "🤝", 
+                desc: "Compartilhar dessa caminhada junto comigo. Clica no botão abaixo, vem fazer parte do time!" 
+            }
+        ];
+
+        const plansData = {
+            'Bronze': { name: "Bronze", freq: "2x por Semana", volume: "8 aulas", price: 499.90, classes: 8, desc: "Foco em consistência e adaptação muscular.", icon: "🥉" },
+            'Prata': { name: "Prata", freq: "3x por Semana", volume: "12 aulas", price: 699.90, classes: 12, desc: "Foco em hipertrofia e queima de gordura otimizada.", icon: "🥈" },
+            'Ouro': { name: "Ouro", freq: "4x por Semana", volume: "16 aulas", price: 849.90, classes: 16, desc: "Máxima performance para resultados acelerados.", icon: "🥇" },
+            'Plus': { name: "Plus", freq: "5x por Semana", volume: "20 aulas", price: 999.90, classes: 20, desc: "Acompanhamento de elite para transformação total.", icon: "💎" }
+        };
+
+        let currentStepId = 1;
+
+        // Função que renderiza o menu de passos
+        function renderSteps() {
+            const container = document.getElementById('steps-container');
+            container.innerHTML = '';
+            
+            stepsData.forEach(step => {
+                const isActive = step.id === currentStepId;
+                const div = document.createElement('div');
+                div.className = `p-5 cursor-pointer border-l-2 transition-all duration-300 rounded-r-lg ${isActive ? 'step-active translate-x-2' : 'step-inactive hover:bg-white/5'}`;
+                div.onclick = () => { 
+                    currentStepId = step.id; 
+                    renderSteps(); 
+                    updateContent(step);
+                };
+                div.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <span class="text-xs font-bold opacity-50 font-heading">0${step.id}</span>
+                            <h4 class="font-bold uppercase text-sm tracking-widest">${step.short}</h4>
+                        </div>
+                        <span class="text-[10px] uppercase font-bold text-lime-400/50">${isActive ? '●' : ''}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            
+            // Inicializa o conteúdo do primeiro passo
+            if(currentStepId === 1) updateContent(stepsData[0]);
+        }
+
+        // Função que atualiza o texto explicativo
+        function updateContent(step) {
+            const contentArea = document.getElementById('step-content');
+            const ctaBtn = document.getElementById('cta-online-btn');
+            
+            contentArea.innerHTML = `
+                <div class="animate-fadeIn">
+                    <div class="flex items-center gap-5 mb-8">
+                        <span class="text-5xl text-lime-400 bg-lime-400/10 p-3 rounded-lg">${step.icon}</span>
+                        <div>
+                            <span class="text-xs uppercase text-lime-400 font-bold tracking-[0.2em]">${step.short}</span>
+                            <h3 class="text-3xl font-bold font-heading uppercase tracking-tighter">${step.title}</h3>
+                        </div>
+                    </div>
+                    <p class="text-gray-200 leading-relaxed text-xl mb-8 border-l-2 border-white/10 pl-6 italic">
+                        "${step.desc}"
+                    </p>
+                    <div class="flex gap-2">
+                        <div class="w-12 h-1 bg-lime-400 rounded-full"></div>
+                        <div class="w-4 h-1 bg-white/20 rounded-full"></div>
+                    </div>
+                </div>`;
+            
+            // Personaliza a mensagem do WhatsApp conforme o passo
+            const msg = encodeURIComponent(`Olá Alexandre! Vi o ${step.short} do seu método e quero começar.`);
+            ctaBtn.href = `https://wa.me/5531972039874?text=${msg}`;
+        }
+
+        function filterPlan(planKey) {
+            document.querySelectorAll('.plan-filter').forEach(btn => {
+                btn.classList.remove('bg-lime-400', 'text-black', 'border-lime-400');
+                btn.classList.add('bg-zinc-900', 'text-gray-400');
+            });
+            const btn = document.getElementById(`btn-${planKey}`);
+            btn.classList.add('bg-lime-400', 'text-black', 'border-lime-400');
+
+            const plan = plansData[planKey];
+            document.getElementById('plan-title').textContent = `PLANO ${plan.name}`;
+            document.getElementById('plan-desc').textContent = plan.desc;
+            document.getElementById('plan-freq').textContent = plan.freq;
+            document.getElementById('plan-volume').textContent = plan.volume;
+            document.getElementById('plan-price').textContent = `R$ ${plan.price.toFixed(2).replace('.', ',')}`;
+            document.getElementById('plan-icon').textContent = plan.icon;
+            
+            const waBtn = document.getElementById('whatsapp-plan-btn');
+            const message = encodeURIComponent(`Olá Alexandre! Tenho interesse no Plano Presencial ${plan.name} (${plan.freq}).`);
+            waBtn.href = `https://wa.me/5531972039874?text=${message}`;
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('plansChart').getContext('2d');
+            const labels = Object.keys(plansData);
+            const costPerClass = Object.keys(plansData).map(k => plansData[k].price / plansData[k].classes);
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Valor/Aula (R$)',
+                        data: costPerClass,
+                        backgroundColor: '#a2ff00',
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { ticks: { color: '#666' }, grid: { color: '#333' } },
+                        x: { ticks: { color: '#666' }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function scrollToSection(id) { 
+            const el = document.getElementById(id);
+            if(el) el.scrollIntoView({ behavior: 'smooth' }); 
+        }
+
+        window.addEventListener('DOMContentLoaded', () => { 
+            renderSteps(); 
+            filterPlan('Prata'); 
+            initChart(); 
+        });
+    </script>
+</body>
+</html>
